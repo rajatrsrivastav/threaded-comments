@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/controllers/auth.controller.ts","./src/controllers/comments.controller.ts","./src/routes/auth.routes.ts","./src/routes/comments.routes.ts"],"version":"5.9.3"}

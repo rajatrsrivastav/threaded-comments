@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id
+  email       String   @unique
+  displayName String
+  photoURL    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  likes       Like[]
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  text      String
+  author    String
+  likes     Int       @default(0)
+  timestamp DateTime  @default(now())
+  parentId  Int?
+  parent    Comment?  @relation("Replies", fields: [parentId], references: [id], onDelete: Cascade)
+  children  Comment[] @relation("Replies")
+  likedBy   Like[]
+}
+
+model Like {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  commentId Int
+  createdAt DateTime @default(now())
+  comment   Comment  @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, commentId])
+}
