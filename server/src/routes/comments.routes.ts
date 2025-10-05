@@ -3,8 +3,8 @@ import { getAllComments, postComment, toggleLike } from '../controllers/comments
 
 export const CommentRoutes = Router()
 
-CommentRoutes.get('/', getAllComments)             // GET /api/comments
-CommentRoutes.post('/', postComment)               // POST /api/comments
-CommentRoutes.post('/toggle-like', toggleLike)     // POST /api/comments/toggle-like
+CommentRoutes.get('/', getAllComments)
+CommentRoutes.post('/', postComment)
+CommentRoutes.post('/toggle-like', toggleLike)
 
 

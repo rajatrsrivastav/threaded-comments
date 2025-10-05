@@ -30,12 +30,10 @@ export default function AuthBar() {
     <GoogleLogin
       onSuccess={async (response) => {
         try {
-          // Decode the JWT credential from Google
           if (response.credential) {
             const decoded = jwtDecode(response.credential);
             console.log('Decoded Google user:', decoded);
             
-            // Send decoded data to backend
             const user = await handleGoogleLogin(decoded);
             setUser(user);
           }

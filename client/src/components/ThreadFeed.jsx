@@ -3,7 +3,7 @@ import CommentItem from "./CommentsContainer";
 import AuthBar from "./Auth";
 import { getUser } from "../auth";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export default function CommentList() {
   const [comments, setComments] = useState([]);
@@ -11,12 +11,10 @@ export default function CommentList() {
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState(getUser());
 
-  // Fetch comments from backend when component loads
   useEffect(() => {
     loadComments();
   }, []);
 
-  // Listen for user changes (when they sign in/out)
   useEffect(() => {
     const checkUser = () => {
       setUser(getUser());
@@ -25,7 +23,6 @@ export default function CommentList() {
     return () => clearInterval(interval);
   }, []);
 
-  // Fixed handleLike function
   async function handleLike(commentId) {
     if (!user) return;
 
@@ -45,7 +42,6 @@ export default function CommentList() {
         throw new Error('Failed to toggle like');
       }
 
-      // Reload comments to get updated data
       loadComments();
     } catch (error) {
       console.error('Like failed:', error);
@@ -65,7 +61,6 @@ export default function CommentList() {
     }
   }
 
-  // Build nested comment tree from flat array
   function buildTree(flatComments) {
     const map = {};
     const roots = [];

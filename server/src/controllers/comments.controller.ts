@@ -31,7 +31,6 @@ export const postComment = async (req: Request, res: Response) => {
     const safeAuthor =
       typeof author === "string" && author.trim() ? author.trim() : "Anonymous";
 
-    // Only validate parentId if it's actually provided
     let safeParentId = null;
     if (parentId !== null && parentId !== undefined) {
       if (!Number.isInteger(parentId)) {
@@ -77,7 +76,7 @@ export const likeComment = async (req: Request, res: Response) => {
 
 export const toggleLike = async (req: Request, res: Response) => {
   try {
-    const { commentId, userId } = req.body;  // Read from request body
+    const { commentId, userId } = req.body;
 
     if (!userId || !commentId) {
       return res.status(400).json({ message: "User ID and Comment ID required" });
@@ -85,12 +84,11 @@ export const toggleLike = async (req: Request, res: Response) => {
 
     const existingLike = await prisma.like.findUnique({
       where: {
-        userId_commentId: { userId, commentId: Number(commentId) }  // Ensure commentId is number
+        userId_commentId: { userId, commentId: Number(commentId) }
       }
     });
 
     if (existingLike) {
-      // Unlike: Remove like and decrement count
       await prisma.$transaction([
         prisma.like.delete({
           where: { id: existingLike.id }
@@ -103,7 +101,6 @@ export const toggleLike = async (req: Request, res: Response) => {
       return res.json({ liked: false });
     }
 
-    // Like: Create like and increment count
     await prisma.$transaction([
       prisma.like.create({
         data: { userId, commentId: Number(commentId) }

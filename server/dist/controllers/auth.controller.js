@@ -1,22 +1,18 @@
 import {} from 'express';
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
-// Handle Google OAuth - receive user data from frontend
 export const googleAuth = async (req, res) => {
     try {
         const { id, email, displayName, photoURL } = req.body;
-        // Validate required fields
         if (!id || !email || !displayName) {
             return res.status(400).json({
                 message: 'Missing required fields: id, email, displayName'
             });
         }
-        // Check if user already exists
         let user = await prisma.user.findUnique({
             where: { id }
         });
         if (user) {
-            // Update existing user
             user = await prisma.user.update({
                 where: { id },
                 data: {
@@ -27,7 +23,6 @@ export const googleAuth = async (req, res) => {
             });
         }
         else {
-            // Create new user
             user = await prisma.user.create({
                 data: {
                     id,
@@ -37,7 +32,6 @@ export const googleAuth = async (req, res) => {
                 }
             });
         }
-        // Return user data to frontend
         res.status(200).json({
             id: user.id,
             email: user.email,

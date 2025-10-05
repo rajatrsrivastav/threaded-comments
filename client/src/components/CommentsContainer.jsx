@@ -8,7 +8,6 @@ export default function CommentItem({ node, depth = 0, onReply, onLike, user }) 
   const [visibleReplies, setVisibleReplies] = useState(0);
   const initials = node.author[0]?.toUpperCase() || "A";
 
-  // Number of replies to reveal at a time
   const INITIAL_VISIBLE_REPLIES = 1;
   const LOAD_STEP = 2;
 
@@ -41,7 +40,6 @@ export default function CommentItem({ node, depth = 0, onReply, onLike, user }) 
     setShowReply(false);
   }
 
-  // Check if current user liked this comment
   const isLiked = node.likedBy?.some(like => like.userId === user?.id);
   const totalReplies = node.children?.length ?? 0;
   const remainingReplies = Math.max(0, totalReplies - visibleReplies);
