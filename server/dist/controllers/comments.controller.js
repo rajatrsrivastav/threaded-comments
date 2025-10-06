@@ -68,7 +68,7 @@ export const likeComment = async (req, res) => {
 };
 export const toggleLike = async (req, res) => {
     try {
-        const { commentId, userId } = req.body; 
+        const { commentId, userId } = req.body;
         if (!userId || !commentId) {
             return res.status(400).json({ message: "User ID and Comment ID required" });
         }

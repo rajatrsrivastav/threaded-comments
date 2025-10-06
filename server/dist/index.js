@@ -12,6 +12,12 @@ app.use(express.json());
 app.get('/', (req, res) => {
     res.json({ message: "Hello from the backend!" });
 });
+app.get('/api/health', (req, res) => {
+    res.status(200).json({
+        status: 'ok',
+        message: 'Server is healthy'
+    });
+});
 app.use('/api/comments', CommentRoutes);
 app.use('/api/auth', AuthRoutes);
 app.listen(PORT, () => {
