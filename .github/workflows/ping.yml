@@ -1,0 +1,27 @@
+# A descriptive name for your workflow
+name: Ping Backend Server
+
+# Controls when the action will run
+on:
+  # This is the schedule trigger
+  schedule:
+    # Runs at minute 15 and 45 past every hour. 
+    # Use '*/14 * * * *' to run every 14 minutes.
+    - cron: '15,45 * * * *'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Defines the job(s) to run
+jobs:
+  # The name of the job
+  ping:
+    # The type of machine to run the job on
+    runs-on: ubuntu-latest
+
+    # The steps that make up the job
+    steps:
+      # A descriptive name for the step
+      - name: Send request to backend
+        # The command to execute. The '-s' flag hides progress output.
+        run: curl -s https://threaded-comments.onrender.com/api/health
